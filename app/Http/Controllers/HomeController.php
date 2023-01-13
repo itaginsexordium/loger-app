@@ -24,13 +24,15 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $logs = null;
-
-        if (!empty($request->search)) {
-            $logs = AccessLogs::where('name', 'LIKE', "%".$request->search ."%")->orWhere('ip', 'LIKE', "%".$request->search ."%")->sortable()->paginate(20);
-        } else {
-            $logs = AccessLogs::sortable()->paginate(20);
-        }
+        $search = $request->search;
+        
+        $logs = AccessLogs::when($search, function ($query, $search) {
+            $query->where('name', 'LIKE', "%" . $search . "%")
+                ->orWhere('ip', 'LIKE', "%" . $search . "%")
+                ->sortable();
+        }, function ($query) {
+            $query->sortable();
+        })->paginate(20);
 
         return view('home', [
             'logs' => $logs,

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->ipAddress('ip');
             $table->string('path')->nullable();
-            $table->timestamp('a_time')->nullable();
+            $table->unsignedBigInteger('a_time')->nullable();
             $table->timestamps();
         });
     }

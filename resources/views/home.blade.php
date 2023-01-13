@@ -49,8 +49,10 @@
                         </table>
                     </div>
 
+                    @if(count($logs->links()->elements[0]) > 1 )
                     <div class="card-footer">
                         {{ $logs->withQueryString()->links('pagination::bootstrap-5') }}</div>
+                        @endif
                 </div>
             </div>
         </div>
